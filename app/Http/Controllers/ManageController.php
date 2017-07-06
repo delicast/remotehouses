@@ -59,35 +59,31 @@ class ManageController extends Controller
             return ("Not Authorised");
         }
         else{
-            $project_id=3;
+            $project_id=4;
             $project_manager=1;
             $qlty_times=1;
-            $description='Kanenguerere is a small village located 43 km southeast of
-                            Benguela town. HALO Trust has surveyed 5 new tasks around the village which formed a
-                            defensive cordon of the two railway bridges.';
+            $description='Bocoio and Balombo are 2 municipalities of Benguela Provincef. ';
             $nature='Private';
-            $name='The Halo Trust Angola - Kanenguerere';
-            $shortname='halo-kanenguerere'; //NAME FOR URL PROJECT
+            $name='The Halo Trust Angola - Bocoio and Balombo';
+            $shortname='halo-bocoio-balombo'; //NAME FOR URL PROJECT
             $project_url='https://www.halotrust.org/';
             $logo_file='Halo.svg';
-            $shp_path_prj=base_path().'/public/uploads/Kanenguerere_project.shp';
-            $shp_path_grid= base_path().'/public/uploads/Grid_small_cut_kanenguerere.shp';
-            $area=314.15;
-
-
-            $grouping='Kanenguerere';
+            $shp_path_prj=base_path().'/public/uploads/Bocoio_Balombo_municipios_WGS84_dissolved.shp';
+            $shp_path_grid= base_path().'/public/uploads/Bocoio_Balombo_MMONAD_2.shp';
+            $area=8226;
+            $grouping='BocoioBalombo';
 
             //REMOVE IF GRID IS THE SAME!
 
             //$this->load_grid($grouping,$shp_path_grid);
             
-            //$this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file);
-            $this->reload_project_shape($project_id,$shp_path_prj);
+            $this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file);
+            //$this->reload_project_shape($project_id,$shp_path_prj);
             //TARDA Mazo...mas de 30 sec
 
             //$this->grid_to_project($project_id, $grouping);
 
-            //$this->user_to_project($project_id,$project_manager); //as manager
+            $this->user_to_project($project_id,$project_manager); //as manager
 
             return Redirect::to('manage/admin/'.$project_id);
         }
@@ -103,19 +99,23 @@ class ManageController extends Controller
         User::find($user_id)->projects()->attach($project_id,['level_id' => $level_id]);
 
     }
+
     // GRID TO PROJECT
     // Associates a grid to a Project based on the grouping field of the grid table
     public  function grid_to_project($project_id,$grouping){
 
+        DB::table('grid')->where('grouping',$grouping)->chunk(100, function($grids) {
+            foreach ($grids as $grid) {
 
-        foreach (Grids::where('grouping',$grouping)->get() as $grid){
+                DB::table('grid_project')->insert(
+                    ['project_id' => 4, 'grid_id' => $grid->id]
+                );
+            }
+        });
 
-            //if ($grid->projects()->where('grid_id',$grid->id)->where('project_id',$project_id)->get()->count()==0) {
-                $grid->projects()->attach($project_id);
-            //}
-
-        }
     }
+
+
     // LOAD_PROJECT
     // Loads a project from a shapefile and some parameters into the project table. For now I use it manually but the goal is that the
     // project manager can select the shapefile and load a project. Consider the shapefile has only 1 feature
@@ -176,7 +176,7 @@ class ManageController extends Controller
             $ShapeFile = new ShapeFile($shp_path_grid);
 
             $i=0;
-            while (($record = $ShapeFile->getRecord(SHAPEFILE::GEOMETRY_WKT))&&($i<10000)) {
+            while (($record = $ShapeFile->getRecord(SHAPEFILE::GEOMETRY_WKT))&&($i<1000000)) {
 
                 if (Grids::find($record['dbf']['MRMONAD'])==null){
 

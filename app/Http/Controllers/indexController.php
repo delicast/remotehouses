@@ -23,7 +23,7 @@ class indexController extends Controller
     }
     public  function home(){
 
-        return Redirect::to('lunge');
+        return view("home");
     }
 
     public  function index($proj_name){
