@@ -5,8 +5,8 @@
     @include('nav_admin')
 
     <div id="permissions" class="container-fluid text-center">
-        <h2>Users Permissions</h2>
-        <h3>For Project {{$current_project->name}}</h3>
+        <h2>Users Statistics</h2>
+        <h3>For All Projects </h3>
 
         <table class="table table-hover col-sm-12" style="text-align: left">
             <thead>
