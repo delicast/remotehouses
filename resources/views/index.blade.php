@@ -6,12 +6,11 @@
 @include('nav')
 
 <div class="jumbotron text-center" style="padding: 40px 25px 25px 25px;">
-    <h1 style="font-size: 40px">HouseHolds Digitization Tool</h1>
+    <h1 style="font-size: 40px">Digitize HouseHolds</h1>
     <p>{{$project->name}}</p>
     @if ($project->logo_file)
         <a href='{{$project->project_url}}'><img src='/img/{{$project->logo_file}}' width="150"></a>
     @endif
-    <a href="https://www.sasscal.org"><img src="/img/sasscal_white.png" width="200"></a>
     <br><br>
     <a href="#digitize"><button type="button" class="btn btn-danger">Start Digitizing!</button></a>
 
@@ -23,7 +22,7 @@
     <div class="row ">
         <div class="progress">
             <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
-                 aria-valuenow="{{$percentagem}}" aria-valuemin="0" aria-valuemax="100" style="width:10%">
+                 aria-valuenow="{{$percentagem}}" aria-valuemin="0" aria-valuemax="100" style="width:{{$percentagem}}%">
                 {{$percentagem}}% Complete
             </div>
         </div>
