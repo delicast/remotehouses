@@ -77,13 +77,13 @@ class ManageController extends Controller
 
             //$this->load_grid($grouping,$shp_path_grid);
             
-            $this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file);
+            //$this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file);
             //$this->reload_project_shape($project_id,$shp_path_prj);
             //TARDA Mazo...mas de 30 sec
 
-            //$this->grid_to_project($project_id, $grouping);
+            $this->grid_to_project($project_id, $grouping);
 
-            $this->user_to_project($project_id,$project_manager); //as manager
+            //$this->user_to_project($project_id,$project_manager); //as manager
 
             return Redirect::to('manage/admin/'.$project_id);
         }
