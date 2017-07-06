@@ -3,7 +3,7 @@
     <div class="container">
         <div class="navbar-header ">
 
-            <a class="navbar-brand " href="#myPage">HouseHolds</a>
+            <a class="navbar-brand " href="/">HouseHolds</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">

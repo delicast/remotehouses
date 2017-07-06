@@ -39,7 +39,10 @@
                                 @endif
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-8 control-label"> <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                <span style="color: red"> Do not use personal passwords here.</span> Site not yet 100% secure</label>
+                        </div>
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Password</label>
 
