@@ -36,11 +36,13 @@
     <div class="row">
         <div class="col-sm-8">
             <h2>Tutorial</h2><br>
-            <h4>It's simple. Navigate the satellite image in search of households inside the given frame. Point out their position and move to the next image.
-            Most images will have no households, leave those empty and move on with more images.</h4><br>
-            <p>You can Edit (move) the households before you submit the result by dragging them with the mouse.
-            To remove a household, click on remove household button and click on the household you would like to remove.</p>
-            <br><p>Having problems?</p><button class="btn btn-default btn-lg">Get in Touch</button>
+            <h4> <span class="glyphicon glyphicon-home"></span> &nbsp It's simple. Navigate the satellite image in search of households <b>inside the given frame</b>. Point out their position and move to the next image.
+                Most images will have no households, leave those empty and move on with more images.</h4>
+            <h4><span class="glyphicon glyphicon-flash"></span> &nbsp If an image has not enought quality to determine if there are houses or if clouds are blocking the view, leave it empty and mark it as 'Problems with the image' on the prompt.</h4>
+            <h4><span class="glyphicon glyphicon-pushpin"></span> &nbsp You can edit (move) the households before you submit the result by dragging them with the mouse.
+                To remove a household, click on remove household button and click on the household you would like to remove.</h4>
+            <br><p>Having problems?</p>
+            <a href="mailto:delicast@gmail.com">Get in Touch </a>
         </div>
         <div class="col-sm-4">
             <span class="glyphicon glyphicon-info-sign logo"></span>
