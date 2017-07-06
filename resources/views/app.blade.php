@@ -27,7 +27,7 @@
         <span class="glyphicon glyphicon-chevron-up"></span>
     </a>
     <p>TEST VERSION - NOT FULLY FUNCTIONAL </p>
-    <p>(c) SASSCAL 2017 </p>
+    <p>&copy; 2017 <a href="www.sasscal.org">SASSCAL</a> </p>
 </footer>
 
 

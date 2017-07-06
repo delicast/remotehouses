@@ -14,9 +14,17 @@
 <div id="projects" class="container-fluid">
     <div class="row">
         <div class="col-sm-8">
-            <h2>Current Projects</h2><br>
-            <h4>List of projets here</h4><br>
+            <h2>Current Projects</h2>
 
+            @foreach($projects as $project)
+                <h3><span class="glyphicon glyphicon-chevron-right"></span>
+                    <a href="/{{$project->shortname}}"> {{$project->name}}</a>
+                </h3>
+
+            @endforeach
+
+
+            <br>
             <h2>Past Projects</h2><br>
         </div>
 
@@ -43,7 +51,8 @@
 
 <div id="about" class="container-fluid">
     <div class="row">
-        About the projects
+        <h2>About</h2>
+        About -- In progress
     </div>
 </div>
 

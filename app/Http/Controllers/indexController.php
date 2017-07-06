@@ -22,8 +22,9 @@ class indexController extends Controller
         return view("oltest");
     }
     public  function home(){
-
-        return view("home");
+        $projects=Projects::all();
+        
+        return view("home",compact('projects'));
     }
 
     public  function index($proj_name){

@@ -8,13 +8,13 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
-
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{$current_project->name}}
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li ><a href="/manage/admin/{{$current_project->id}}">Change</a></li>
-                    </ul>
+                    <a class="dropdown-toggle" href="/{{$current_project->shortname}}">{{$current_project->name}}
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="/manage/admin/{{$current_project->id}}">Change Project
+                    </a>
                 </li>
 
                 <li class="dropdown">
