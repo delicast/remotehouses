@@ -15,6 +15,7 @@ use App\Grids;
 use App\Projects;
 use DB;
 use Auth;
+use Symfony\Component\Routing\RequestContextAwareInterface;
 
 class indexController extends Controller
 {
@@ -36,7 +37,6 @@ class indexController extends Controller
 
 
 
-
         $times=$project->qlty_times_per_image;
         $grids_complete=GridsDigitizes::select('grid_id')->where('project_id',$project_id);
 
@@ -50,9 +50,23 @@ class indexController extends Controller
         $grids_complete=$grids_complete->groupBy('grid_id')->havingRaw('count(grid_id) >= '.$times)->get();
 
 
-
         // All grids that are not in both  lists of completed grids obtained previously, get the first of a random order
-        $grid=$project->grids()->whereNotIn('grid.id', $grids_complete)->orderByRaw('random()')->first();
+
+        //$grid=$project->grids()->whereNotIn('grid.id', $grids_complete)->orderByRaw('random()')->first();
+
+        $grid_id= DB::select("SELECT grid_id FROM grid_project 
+                            WHERE grid_id NOT IN (
+                              SELECT grid_id  AS counta FROM grid_digitize WHERE project_id='$project->id' 
+                              GROUP BY grid_id 
+                              HAVING count(grid_id) >= '$times' )
+                            AND grid_project.project_id='$project->id'
+                            ORDER BY RANDOM()
+                            LIMIT 1");
+
+        $grid= Grids::where('id',$grid_id[0]->grid_id)->first();
+
+        //dd($grid);
+        //$grid=$project->grids()->first();
 
         $num_images=$project->grids()->count();
         
