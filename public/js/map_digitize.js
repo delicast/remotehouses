@@ -6,6 +6,23 @@ $('#start_digitizing').addClass("active")
 var startDrawing=false;
 
 
+
+
+var housesstyles = [
+    new ol.style.Style({
+        image: new ol.style.Circle({
+            radius: 6,
+            stroke: new ol.style.Stroke({
+                color: 'white',
+                width: 2
+            }),
+            fill: new ol.style.Fill({
+                color: 'Chartreuse'
+            })
+        })
+
+    })
+];
 var styles = [
     new ol.style.Style({
         stroke: new ol.style.Stroke({
@@ -16,7 +33,20 @@ var styles = [
     })
 ];
 
+var housesdone=new ol.layer.Vector({
 
+    source: new ol.source.Vector({
+
+        url: '/geometry/get_houses_project/'+project_id,
+        format: new ol.format.GeoJSON({
+
+            defaultDataProjection :'EPSG:3857',
+            projection: 'EPSG:3857'
+        })
+    }),
+    name: 'housesdone',
+    style: housesstyles
+});
 var cell=new ol.layer.Vector({
 
     source: new ol.source.Vector({
@@ -26,9 +56,7 @@ var cell=new ol.layer.Vector({
             
             defaultDataProjection :'EPSG:3857',
             projection: 'EPSG:3857'
-
         })
-
     }),
     name: 'cell',
     style: styles
@@ -69,9 +97,9 @@ var mousePositionControl = new ol.control.MousePosition({
 });
 
 var view = new ol.View({
-    zoom: 17,
+    zoom: 15,  //17 para grid pequena
     maxZoom:19,
-    minZoom: 17,
+    minZoom: 14, //17 para grid pequena
     center: [2,2] //random, depois se actualza com o getView().fit
 });
 
@@ -81,10 +109,10 @@ var map1 = new ol.Map({
             preload: Infinity,
             source: new ol.source.BingMaps({
                 key: 'At4LG_GUfiXz_wezlE0vG6ZcrOZhoxPa2xK8nlLBlX1e4KbJGx5biSGRuph2RYmS',
-                imagerySet: 'Aerial'
+                imagerySet: 'AerialWithLabels'
             })
         })
-        ,cell,featureOverlay],
+        ,cell,housesdone,featureOverlay],
     target: 'map',
     controls:[mousePositionControl],
     view: view
@@ -141,7 +169,9 @@ map1.addInteraction(modify);
 
 
 
-
+function recenterMap(){
+    map1.getView().fit(cell.getSource().getExtent(), map1.getSize());
+}
 function addHouseholds() {
 
     map1.removeInteraction(singleClick);

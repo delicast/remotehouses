@@ -60,6 +60,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('geometry/get_project_json/{project_id}', 'GeometryController@get_project_json');
     Route::get('geometry/get_project_extent', 'GeometryController@get_project_extent');
     Route::get('geometry/get_cell_json/{id}', 'GeometryController@get_cell_json');
+    Route::get('geometry/get_houses_project/{id}', 'GeometryController@get_houses_done_on_project');
+
 
 
     Route::get('/test', 'indexController@test');

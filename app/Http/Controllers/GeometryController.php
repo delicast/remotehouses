@@ -22,6 +22,19 @@ class GeometryController extends Controller
         $json=DB::select($sql)[0]->row_to_json;
         return ($json);
     }
+    public  function get_houses_done_on_project($id){
+        $sql=   "SELECT row_to_json(fc)
+                 FROM ( SELECT 'FeatureCollection' As type, 
+                 array_to_json(array_agg(f)) As features
+                 FROM (SELECT 'Feature' As type
+                    , ST_AsGeoJSON(ST_Transform(lg.point,3857))::json As geometry
+                    , row_to_json((SELECT l FROM (SELECT id) As l
+                      )) As properties
+                   FROM household  As lg  WHERE project_id='".$id."' ) As f )  As fc;";
+
+        $json=DB::select($sql)[0]->row_to_json;
+        return ($json);
+    }
     public  function get_project_json($project_id)
     {
         //

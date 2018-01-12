@@ -46,7 +46,7 @@ h4.inverse {
 .map{
     border-color: darkgrey;
     border: solid;
-
+    height:600px;
     padding-left: 0px;
     padding-right: 0px;
     padding-top: 0px;

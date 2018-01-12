@@ -1,7 +1,7 @@
 
         <h2 class="inverse">Digitize! </h2>
 
-        <div id="map" class="col-sm-8 map" ></div>
+        <div id="map" class="col-sm-8 map"  ></div>
 
         @if (Auth::guest())
             <div class="col-lg-3 col-lg-offset-1 alert-danger img-rounded" style="text-align: left; padding: 10px">
@@ -26,6 +26,7 @@
 
         @endif
 
+
         <div id="addHouseholds" class="btn btn-default btn-lg col-lg-3 col-lg-offset-1 " onclick="addHouseholds()">
             <span class="glyphicon glyphicon-home"></span> Insert Households
         </div>
@@ -34,6 +35,10 @@
             <span class="glyphicon glyphicon-remove"></span> Remove Households
         </div>
         <div class="col-sm-4" style="height: 20px"></div>
+        <div id="recenter" class="btn btn-danger btn-lg col-lg-2 col-lg-offset-2 " onclick="recenterMap()">
+            <span class="glyphicon glyphicon-screenshot"></span> Recenter Map
+        </div>
+        <div class="col-sm-4" style="height: 40px"></div>
 
 
         <form action="/map" method="POST">
@@ -73,9 +78,11 @@
                 </div>
             </div>
         </form>
+
         <div class="col-sm-12" id="mouse-position"></div>
 
         <script>
             var grid_id = "{{$grid->id}}";
+            var project_id = "{{$project->id}}";
         </script>
         <script src="{{ asset('/js/map_digitize.js') }}"></script>

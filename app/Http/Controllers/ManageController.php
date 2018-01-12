@@ -59,29 +59,29 @@ class ManageController extends Controller
             return ("Not Authorised");
         }
         else{
-            $project_id=5;
+            $project_id=6;
             $project_manager=1;
             $qlty_times=1;
             $description='KAZA TFCA Households ';
             $nature='Private';
-            $name='Panthera - KAZA 1';
-            $shortname='panthera-kaza-1'; //NAME FOR URL PROJECT
+            $name='Panthera - KAZA 1 5k';
+            $shortname='panthera-kaza-1-5k'; //NAME FOR URL PROJECT
             $project_url='https://www.panthera.org/';
             $logo_file='logo_panthera.svg';
             $shp_path_prj=base_path().'/public/uploads/panthera_kaza_1.shp';
-            $shp_path_grid= base_path().'/public/uploads/panthera_kaza_1_grid.shp';
+            $shp_path_grid= base_path().'/public/uploads/panthera_kaza_1_grid_5x5.shp';
             $area=1800;
-            $grouping='kaza_1';
+            $grouping='kaza_1_5k';
 
             //REMOVE IF GRID IS THE SAME!
 
             //$this->load_grid($grouping,$shp_path_grid);
             
-            $this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file);
+            //$this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file);
             //$this->reload_project_shape($project_id,$shp_path_prj);
             //TARDA Mazo...mas de 30 sec
 
-            //$this->grid_to_project($project_id, $grouping);
+            $this->grid_to_project($project_id, $grouping);
 
             $this->user_to_project($project_id,$project_manager); //as manager
 
@@ -108,7 +108,7 @@ class ManageController extends Controller
             foreach ($grids as $grid) {
 
                 DB::table('grid_project')->insert(
-                    ['project_id' => 5, 'grid_id' => $grid->id]
+                    ['project_id' => 6, 'grid_id' => $grid->id]
                 );
             }
         });
@@ -177,6 +177,7 @@ class ManageController extends Controller
 
             $i=0;
             while (($record = $ShapeFile->getRecord(SHAPEFILE::GEOMETRY_WKT))&&($i<1000000)) {
+
 
                 if (Grids::find($record['dbf']['MRMONAD'])==null){
 
