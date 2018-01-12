@@ -75,9 +75,9 @@ class ManageController extends Controller
 
             //REMOVE IF GRID IS THE SAME!
 
-            $this->load_grid($grouping,$shp_path_grid);
+            //$this->load_grid($grouping,$shp_path_grid);
             
-            $this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file);
+            //$this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file);
             //$this->reload_project_shape($project_id,$shp_path_prj);
             //TARDA Mazo...mas de 30 sec
 
