@@ -17,9 +17,19 @@
             <h2>Current Projects</h2>
 
             @foreach($projects as $project)
-                <h3><span class="glyphicon glyphicon-chevron-right"></span>
-                    <a href="/{{$project->shortname}}"> {{$project->name}}</a>
-                </h3>
+                @if ($project->status=='hold')
+                    <h3 style="color:orange"><span class="glyphicon glyphicon-chevron-left"></span>
+                        {{$project->name}}
+                    </h3>
+                @elseif ($project->status=='finished')
+                    <h3 style="color:green"><span class="glyphicon glyphicon-chevron-left"></span>
+                        {{$project->name}}
+                    </h3>
+                @else
+                    <h3><span class="glyphicon glyphicon-chevron-right"></span>
+                        <a href="/{{$project->shortname}}"> {{$project->name}}</a>
+                    </h3>
+                @endif
 
             @endforeach
 
