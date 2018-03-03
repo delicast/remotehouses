@@ -59,29 +59,29 @@ class ManageController extends Controller
             return ("Not Authorised");
         }
         else{
-            $project_id=7;
+            $project_id=8;
             $project_manager=1;
             $qlty_times=1;
-            $description='Bocoio and Balombo are 2 municipalities of Benguela Province';
+            $description='Luando Integral Reserve and Cangandala National Park';
             $nature='Private';
-            $name='The Halo Trust Angola - Bocoio and Balombo 1m';
-            $shortname='halo-bocoio-balombo-1m'; //NAME FOR URL PROJECT
-            $project_url='https://www.halotrust.org/';
-            $logo_file='Halo.svg';
-            $shp_path_prj=base_path().'/public/uploads/Bocoio_Balombo_municipios_WGS84_dissolved.shp';
-            $shp_path_grid= base_path().'/public/uploads/Bocoio_Balombo_grid_1m.shp';
-            $area=8226;
-            $grouping='bocoio_balombo_1m';
+            $name='RWCP - Luando and Cangandala 0,5m';
+            $shortname='rwcp-luando-cangandala-05m'; //NAME FOR URL PROJECT
+            $project_url='http://www.cheetahandwilddog.org/';
+            $logo_file='rwcp_round.png';
+            $shp_path_prj=base_path().'/public/uploads/LuandoCangandala_0_5min_grid_extent.shp';
+            $shp_path_grid= base_path().'/public/uploads/LuandoCangandala_0_5min_grid.shp';
+            $area=16000;
+            $grouping='luando_cangandala_05m';
 
             //REMOVE IF GRID IS THE SAME!
 
-            $this->load_grid($grouping,$shp_path_grid);
+            //$this->load_grid($grouping,$shp_path_grid);
             
             $this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file);
             //$this->reload_project_shape($project_id,$shp_path_prj);
             //TARDA Mazo...mas de 30 sec
 
-            $this->grid_to_project($project_id, $grouping);
+            //$this->grid_to_project($project_id, $grouping);
 
             $this->user_to_project($project_id,$project_manager); //as manager
 
@@ -97,7 +97,7 @@ class ManageController extends Controller
         $level_id=2;
 
         User::find($user_id)->projects()->attach($project_id,['level_id' => $level_id]);
-        User::find(9)->projects()->attach($project_id,['level_id' => $level_id]);
+        //User::find(1)->projects()->attach($project_id,['level_id' => $level_id]);
 
     }
 
@@ -109,7 +109,7 @@ class ManageController extends Controller
             foreach ($grids as $grid) {
 
                 DB::table('grid_project')->insert(
-                    ['project_id' => 7, 'grid_id' => $grid->id]
+                    ['project_id' => 8, 'grid_id' => $grid->id]
                 );
             }
         });
@@ -174,10 +174,11 @@ class ManageController extends Controller
            // $num_records = dbase_numrecords($db);
            // dd($num_records);
 
+
             $ShapeFile = new ShapeFile($shp_path_grid);
 
             $i=0;
-            while (($record = $ShapeFile->getRecord(SHAPEFILE::GEOMETRY_WKT))&&($i<1000000)) {
+            while (($record = $ShapeFile->getRecord(SHAPEFILE::GEOMETRY_WKT))&&($i<25000)) {
 
 
                 if (Grids::find($record['dbf']['MRMONAD'])==null){
