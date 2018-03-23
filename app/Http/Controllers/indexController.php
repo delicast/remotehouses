@@ -63,6 +63,12 @@ class indexController extends Controller
                             ORDER BY RANDOM()
                             LIMIT 1");
 
+        if (count($grid_id)== 0){
+            dd('THIS PROJECT IS FINISHED');
+        };
+
+
+
         $grid= Grids::where('id',$grid_id[0]->grid_id)->first();
 
         //dd($grid);
