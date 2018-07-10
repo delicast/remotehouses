@@ -59,7 +59,7 @@ class ManageController extends Controller
             return ("Not Authorised");
         }
         else{
-            $project_id=13;
+            $project_id=10;
             $project_manager=1;
             $qlty_times=1;
             $description='Cheetah Conservation Botswana Site 1';
@@ -98,7 +98,7 @@ class ManageController extends Controller
         $level_id=2;
 
         User::find($user_id)->projects()->attach($project_id,['level_id' => $level_id]);
-        User::find(12)->projects()->attach($project_id,['level_id' => $level_id]);
+        User::find(19)->projects()->attach($project_id,['level_id' => $level_id]);
 
     }
 
@@ -110,7 +110,7 @@ class ManageController extends Controller
             foreach ($grids as $grid) {
 
                 DB::table('grid_project')->insert(
-                    ['project_id' => 13, 'grid_id' => $grid->id]
+                    ['project_id' => 10, 'grid_id' => $grid->id]
                 );
             }
         });
