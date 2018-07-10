@@ -16,6 +16,9 @@ class Projects extends Model
     public function users (){
         return $this->belongsToMany('App\User','project_user','project_id','user_id')->withPivot('level_id')->withTimestamps();
     }
+    public function pointtypes (){
+        return $this->belongsToMany('App\Pointtypes','project_pointtype','project_id','pointtype_id')->withTimestamps();
+    }
 
 
 }

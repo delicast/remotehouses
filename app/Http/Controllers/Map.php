@@ -72,9 +72,25 @@ class Map extends Controller
                     $new_house->user_id=$user;
                     $new_house->grid_digitize_id=GridsDigitizes::orderBy('created_at','desc')->first()->id;
                     $new_house->project_id=$project_id;
+                    $new_house->pointtype=0;  //Type Household
                     $new_house->save();
 
                 }
+        }
+        if ($waterholes=$request['waterhole']) {
+            foreach ($waterholes as $waterhole){
+
+                $x_house=$waterhole["x"];
+                $y_house=$waterhole["y"];
+                $new_house=new Households();
+                $new_house->point=DB::raw("ST_GeomFromText('POINT({$x_house} {$y_house})', 4326)");
+                $new_house->user_id=$user;
+                $new_house->grid_digitize_id=GridsDigitizes::orderBy('created_at','desc')->first()->id;
+                $new_house->project_id=$project_id;
+                $new_house->pointtype=1;  //Type Waterhole
+                $new_house->save();
+
+            }
         }
 
 

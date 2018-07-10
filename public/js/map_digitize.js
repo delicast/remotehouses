@@ -69,22 +69,48 @@ var source_points = new ol.source.Vector({
 });
 var featureOverlay = new ol.layer.Vector({
     source: source_points,
-    style: new ol.style.Style({
-        fill: new ol.style.Fill({
-            color: 'rgba(255, 255, 255, 0.2)'
-        }),
-        stroke: new ol.style.Stroke({
-            color: '#ffcc33',
-            width: 2
-        }),
-        image: new ol.style.Circle({
-            radius: 7,
+    style: function(feature, resolution){
+        var styleHouse = new ol.style.Style( {
             fill: new ol.style.Fill({
-                color: '#ffcc33'
+                color: 'rgba(255, 255, 255, 0.2)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: '#ffcc33',
+                width: 2
+            }),
+            image: new ol.style.Circle({
+                radius: 7,
+                fill: new ol.style.Fill({
+                    color: '#ffcc33'
+                })
             })
-        })
-    })
+        } );
+
+        var styleWaterhole = new ol.style.Style( {
+            fill: new ol.style.Fill({
+                color: 'rgba(255, 255, 255, 0.2)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: '#000077',
+                width: 2
+            }),
+            image: new ol.style.Circle({
+                radius: 7,
+                fill: new ol.style.Fill({
+                    color: '#000077'
+                })
+            })
+        } );
+
+        if ( feature.get('type') == 'House') {
+            return [styleHouse];
+        } else {
+            return [styleWaterhole];
+        }
+    }
 });
+
+
 
 var mousePositionControl = new ol.control.MousePosition({
     coordinateFormat: ol.coordinate.toStringHDMS,  //toStringXY
@@ -175,6 +201,7 @@ function recenterMap(){
 function addHouseholds() {
 
     map1.removeInteraction(singleClick);
+    map1.removeInteraction(draw);
     draw = new ol.interaction.Draw({
         features: points,
         type: 'Point'
@@ -183,6 +210,9 @@ function addHouseholds() {
     draw.on('drawend', function(e) {
         var point_x=e.feature.getGeometry().getCoordinates()[0];
         var point_y=e.feature.getGeometry().getCoordinates()[1];
+        e.feature.setProperties({
+            'type': 'House'
+        })
         //  console.info(e.feature.getGeometry().getCoordinates());
         /*if (point_y > maxlat_t || point_y < minlat_t || point_x < minlon_t || point_x > maxlon_t ){
             alert("Out of the digitization area!");
@@ -199,7 +229,43 @@ function addHouseholds() {
     map1.addInteraction(modify);
     $('#addHouseholds').addClass('btn-pressed');
     $('#removeHouseholds').removeClass('btn-pressed')
+    $('#addWaterhole').removeClass('btn-pressed')
 }
+
+function addWaterhole() {
+
+    map1.removeInteraction(singleClick);
+    map1.removeInteraction(draw);
+    draw = new ol.interaction.Draw({
+        features: points,
+        type: 'Point'
+    });
+    map1.addInteraction(draw);
+    draw.on('drawend', function(e) {
+        var point_x=e.feature.getGeometry().getCoordinates()[0];
+        var point_y=e.feature.getGeometry().getCoordinates()[1];
+        e.feature.setProperties({
+            'type': 'Waterhole'
+        })
+        //  console.info(e.feature.getGeometry().getCoordinates());
+        /*if (point_y > maxlat_t || point_y < minlat_t || point_x < minlon_t || point_x > maxlon_t ){
+         alert("Out of the digitization area!");
+         out=true;
+         outfeat= e.feature;
+         }else{
+         out=false;
+         }
+         */
+        out=false; //delete
+    });
+
+
+    map1.addInteraction(modify);
+    $('#addWaterhole').addClass('btn-pressed');
+    $('#removeHouseholds').removeClass('btn-pressed')
+    $('#addHouseholds').removeClass('btn-pressed');
+}
+
 function removeHouseholds(){
 
     map1.removeInteraction(modify);
@@ -211,6 +277,7 @@ function removeHouseholds(){
 
 
     $('#addHouseholds').removeClass('btn-pressed');
+    $('#addWaterhole').removeClass('btn-pressed');
     $('#removeHouseholds').addClass('btn-pressed');
 
     map1.addInteraction(singleClick);
@@ -227,7 +294,7 @@ function removeHouseholds(){
 }
 function create_confirmation(){
     if (source_points.getFeatures().length==0){
-        $('#modal-title')[0].innerHTML="Are you sure the Image has no Households?";
+        $('#modal-title')[0].innerHTML="Are you sure the Image has no Features?";
         $('#modal-body')[0].innerHTML=
             "<p>Why are you leaving this image empty?</p> " +
             "<div class='radio' style='text-align: left'>" +
@@ -240,7 +307,7 @@ function create_confirmation(){
     else{
         $('#modal-title')[0].innerHTML="Thank you! Please confirm";
         $('#modal-body')[0].innerHTML=
-            "<p>You have register <b>" + source_points.getFeatures().length + "</b> Households!</p> ";
+            "<p>You have register <b>" + source_points.getFeatures().length + "</b> Features!</p> ";
     }
 }
 
@@ -283,21 +350,34 @@ function getMetadata_house(coordinate, zoom_level,i){
 
 
 
-function array_houses_form (){
+function array_points_form (){
     var i=0;
     source_points.forEachFeatureIntersectingExtent(cell.getSource().getExtent(), function(feature){
         teste=feature;
-        var coord=feature.getGeometry().getCoordinates();
+        if (feature.getProperties().type=='House'){
+            var coord=feature.getGeometry().getCoordinates();
 
-        var coord_WGS84= ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
+            var coord_WGS84= ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
 
-        //getMetadata_house(coord_WGS84[1]+","+coord_WGS84[0],map1.getView().getZoom(),i);
+            //getMetadata_house(coord_WGS84[1]+","+coord_WGS84[0],map1.getView().getZoom(),i);
 
-        $('#inputs_houses').append("<input type='hidden' name='house["+i+"][x]' value="+ coord_WGS84[0]+" >");
-        $('#inputs_houses').append("<input type='hidden' name='house["+i+"][y]' value="+ coord_WGS84[1]+" >");
+            $('#inputs_houses').append("<input type='hidden' name='house["+i+"][x]' value="+ coord_WGS84[0]+" >");
+            $('#inputs_houses').append("<input type='hidden' name='house["+i+"][y]' value="+ coord_WGS84[1]+" >");
 
-        i++;
+            i++; 
+        }
+        if (feature.getProperties().type=='Waterhole'){
+            var coord=feature.getGeometry().getCoordinates();
 
+            var coord_WGS84= ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
+
+            //getMetadata_house(coord_WGS84[1]+","+coord_WGS84[0],map1.getView().getZoom(),i);
+
+            $('#inputs_houses').append("<input type='hidden' name='waterhole["+i+"][x]' value="+ coord_WGS84[0]+" >");
+            $('#inputs_houses').append("<input type='hidden' name='waterhole["+i+"][y]' value="+ coord_WGS84[1]+" >");
+
+            i++;
+        }
 
     })
 }

@@ -31,10 +31,19 @@
             <span class="glyphicon glyphicon-home"></span> Insert Households
         </div>
         <div class="col-sm-4" style="height: 20px"></div>
-        <div id="removeHouseholds" class="btn btn-warning btn-lg col-lg-3 col-lg-offset-1 " onclick="removeHouseholds()">
-            <span class="glyphicon glyphicon-remove"></span> Remove Households
-        </div>
+
+        @if ($project->pointtypes()->where('pointtype.id', 1)->exists())
+            <div id="addWaterhole" class="btn btn-info btn-lg col-lg-3 col-lg-offset-1 " onclick="addWaterhole()">
+                <span class="glyphicon glyphicon-tint"></span>  Insert Waterhole
+            </div>
+        @endif
         <div class="col-sm-4" style="height: 20px"></div>
+
+        <div id="removeHouseholds" class="btn btn-warning btn-lg col-lg-3 col-lg-offset-1 " onclick="removeHouseholds()">
+            <span class="glyphicon glyphicon-remove"></span> Remove Point
+        </div>
+
+        <div class="col-sm-4" style="height: 40px"></div>
         <div id="recenter" class="btn btn-danger btn-lg col-lg-2 col-lg-offset-2 " onclick="recenterMap()">
             <span class="glyphicon glyphicon-screenshot"></span> Recenter Map
         </div>
@@ -70,7 +79,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Back</button>
-                            <input type="submit" onclick="array_houses_form()" class="btn btn-success" value="Done! Next Image">
+                            <input type="submit" onclick="array_points_form()" class="btn btn-success" value="Done! Next Image">
 
                         </div>
                     </div>

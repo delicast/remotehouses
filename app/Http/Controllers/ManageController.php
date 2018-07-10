@@ -59,25 +59,26 @@ class ManageController extends Controller
             return ("Not Authorised");
         }
         else{
-            $project_id=9;
+            $project_id=13;
             $project_manager=1;
             $qlty_times=1;
-            $description='KAZA TFCA Households 2';
+            $description='Cheetah Conservation Botswana Site 1';
             $nature='Private';
-            $name='Panthera - KAZA 2 5k';
-            $shortname='panthera-kaza-2-5k'; //NAME FOR URL PROJECT
-            $project_url='https://www.panthera.org/';
-            $logo_file='logo_panthera.svg';
-            $shp_path_prj=base_path().'/public/uploads/panthera_kaza_2.shp';
-            $shp_path_grid= base_path().'/public/uploads/panthera_kaza_2_grid_5x5.shp';
-            $area=5625;
-            $grouping='panthera-kaza-2-5k';
+            $name='Cheetah Conservation Botswana Site 1';
+            $shortname='CCB_1'; //NAME FOR URL PROJECT
+            $project_url='http://www.cheetahconservationbotswana.org/';
+            $logo_file='CCBlogo.png';
+            $shp_path_prj=base_path().'/public/uploads/CCB_1_area.shp';
+            $shp_path_grid= base_path().'/public/uploads/CCB_1_grid_05min.shp';
+            $area=1195;
+            $pointtypes=array(0,1);  //0 for Households, 1 for Waterholes. Always array
+            $grouping='CCB_1';
 
             //REMOVE IF GRID IS THE SAME!
 
             $this->load_grid($grouping,$shp_path_grid);
             
-            $this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file);
+            $this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file,$pointtypes);
             //$this->reload_project_shape($project_id,$shp_path_prj);
             //TARDA Mazo...mas de 30 sec
 
@@ -109,7 +110,7 @@ class ManageController extends Controller
             foreach ($grids as $grid) {
 
                 DB::table('grid_project')->insert(
-                    ['project_id' => 9, 'grid_id' => $grid->id]
+                    ['project_id' => 13, 'grid_id' => $grid->id]
                 );
             }
         });
@@ -120,7 +121,7 @@ class ManageController extends Controller
     // LOAD_PROJECT
     // Loads a project from a shapefile and some parameters into the project table. For now I use it manually but the goal is that the
     // project manager can select the shapefile and load a project. Consider the shapefile has only 1 feature
-    public  function load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file){
+    public  function load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file,$pointtypes){
 
 
         try {
@@ -141,6 +142,8 @@ class ManageController extends Controller
             $project->logo_file=$logo_file;
             $project->area=$area;
             $project->save();
+            Projects::find($project_id)->pointtypes()->attach($pointtypes[0]);
+            Projects::find($project_id)->pointtypes()->attach($pointtypes[1]);  //REMOVE IF ONLY 1 TYPE
 
 
         } catch (ShapeFileException $e) {
