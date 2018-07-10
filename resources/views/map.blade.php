@@ -34,7 +34,7 @@
 
         @if ($project->pointtypes()->where('pointtype.id', 1)->exists())
             <div id="addWaterhole" class="btn btn-info btn-lg col-lg-3 col-lg-offset-1 " onclick="addWaterhole()">
-                <span class="glyphicon glyphicon-tint"></span>  Insert Waterhole
+                <span class="glyphicon glyphicon-tint"></span>  Insert Borehole
             </div>
         @endif
         <div class="col-sm-4" style="height: 20px"></div>
