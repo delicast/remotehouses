@@ -59,7 +59,7 @@ class ManageController extends Controller
             return ("Not Authorised");
         }
         else{
-            $project_id=10;
+            $project_id=9;
             $project_manager=1;
             $qlty_times=1;
             $description='Cheetah Conservation Botswana Site 1';
@@ -72,19 +72,20 @@ class ManageController extends Controller
             $shp_path_grid= base_path().'/public/uploads/CCB_1_grid_05min.shp';
             $area=1195;
             $pointtypes=array(0,1);  //0 for Households, 1 for Waterholes. Always array
-            $grouping='CCB_1';
+            $grouping='panthera-kaza-2-5k'; //CCB_1
 
             //REMOVE IF GRID IS THE SAME!
 
-            $this->load_grid($grouping,$shp_path_grid);
+            //$this->load_grid($grouping,$shp_path_grid);
             
-            $this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file,$pointtypes);
+           // $this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file,$pointtypes);
             //$this->reload_project_shape($project_id,$shp_path_prj);
             //TARDA Mazo...mas de 30 sec
 
             $this->grid_to_project($project_id, $grouping);
+            $this->grid_to_project(10, 'CCB_1');
 
-            $this->user_to_project($project_id,$project_manager); //as manager
+            //$this->user_to_project($project_id,$project_manager); //as manager
 
             return Redirect::to('manage/admin/'.$project_id);
         }
@@ -106,11 +107,11 @@ class ManageController extends Controller
     // Associates a grid to a Project based on the grouping field of the grid table
     public  function grid_to_project($project_id,$grouping){
 
-        DB::table('grid')->where('grouping',$grouping)->chunk(100, function($grids) {
+        DB::table('grid')->where('grouping',$grouping)->chunk(300, function($grids)use ($project_id) {
             foreach ($grids as $grid) {
 
                 DB::table('grid_project')->insert(
-                    ['project_id' => 10, 'grid_id' => $grid->id]
+                    ['project_id' => $project_id, 'grid_id' => $grid->id]
                 );
             }
         });
