@@ -76,13 +76,13 @@ class ManageController extends Controller
 
             //REMOVE IF GRID IS THE SAME!
 
-            $this->load_grid($grouping,$shp_path_grid);
+           // $this->load_grid($grouping,$shp_path_grid);
             
-            $this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file,$pointtypes);
+          //  $this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file,$pointtypes);
             //$this->reload_project_shape($project_id,$shp_path_prj);
             //TARDA Mazo...mas de 30 sec
 
-            $this->grid_to_project($project_id, $grouping);
+            //$this->grid_to_project($project_id, $grouping);
 
 
             $this->user_to_project($project_id,$project_manager); //as manager
@@ -98,8 +98,8 @@ class ManageController extends Controller
 
         $level_id=2;
 
-        User::find($user_id)->projects()->attach($project_id,['level_id' => $level_id]);
-        User::find(19)->projects()->attach($project_id,['level_id' => $level_id]);
+        //User::find($user_id)->projects()->attach($project_id,['level_id' => $level_id]);
+        User::find(20)->projects()->attach($project_id,['level_id' => $level_id]);
 
     }
 
