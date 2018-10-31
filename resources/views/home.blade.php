@@ -14,28 +14,36 @@
 <div id="projects" class="container-fluid">
     <div class="row">
         <div class="col-sm-8">
-            <h2>Current Projects</h2>
+            <h2>Active Projects</h2>
+            @foreach($projects as $project)
+                @if ($project->status!='hold' and $project->status!='finished')
+                    <h3><span class="glyphicon glyphicon-chevron-right"></span>
+                        <a href="/{{$project->shortname}}"> {{$project->name}}</a>
+                    </h3>
+                @endif
+            @endforeach
+            
+            <br>
+            <h2>Finished Projects</h2>
+            @foreach($projects as $project)
+                @if ($project->status=='finished')
+                    <h3 style="color:green"><span class="glyphicon glyphicon-chevron-left"></span>
+                        {{$project->name}}
+                    </h3>
+                @endif
+            @endforeach
 
+            <br>
+            <h2>On Hold Projects</h2>
             @foreach($projects as $project)
                 @if ($project->status=='hold')
                     <h3 style="color:orange"><span class="glyphicon glyphicon-chevron-left"></span>
                         {{$project->name}}
                     </h3>
-                @elseif ($project->status=='finished')
-                    <h3 style="color:green"><span class="glyphicon glyphicon-chevron-left"></span>
-                        {{$project->name}}
-                    </h3>
-                @else
-                    <h3><span class="glyphicon glyphicon-chevron-right"></span>
-                        <a href="/{{$project->shortname}}"> {{$project->name}}</a>
-                    </h3>
                 @endif
-
             @endforeach
-
-
             <br>
-            <h2>Past Projects</h2><br>
+
         </div>
 
     </div>
