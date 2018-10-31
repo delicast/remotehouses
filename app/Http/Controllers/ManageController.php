@@ -59,33 +59,33 @@ class ManageController extends Controller
             return ("Not Authorised");
         }
         else{
-            $project_id=10;
+            $project_id=11;
             $project_manager=1;
             $qlty_times=1;
-            $description='Cheetah Conservation Botswana Site 1';
+            $description='GH10 & GH11 Botswana';
             $nature='Private';
-            $name='Cheetah Conservation Botswana Site 1';
-            $shortname='CCB_1'; //NAME FOR URL PROJECT
+            $name='GH10 & GH11 Botswana';
+            $shortname='GH1011'; //NAME FOR URL PROJECT
             $project_url='http://www.cheetahconservationbotswana.org/';
             $logo_file='CCBlogo.png';
-            $shp_path_prj=base_path().'/public/uploads/CCB_1_2_area.shp';
-            $shp_path_grid= base_path().'/public/uploads/CCB_1_grid_05min_newfarms.shp';
-            $area=1195;
+            $shp_path_prj=base_path().'/public/uploads/GH10_GH11_area.shp';
+            $shp_path_grid= base_path().'/public/uploads/GH10_GH11_grid_1min.shp';
+            $area=23400;
             $pointtypes=array(0,1);  //0 for Households, 1 for Waterholes. Always array
-            $grouping='CCB_2'; //CCB_1
+            $grouping='GH1011'; //CCB_1
 
             //REMOVE IF GRID IS THE SAME!
 
             $this->load_grid($grouping,$shp_path_grid);
             
-           // $this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file,$pointtypes);
+            $this->load_project($project_id,$qlty_times,$area,$description,$nature,$name,$shp_path_prj,$shortname,$project_url,$logo_file,$pointtypes);
             //$this->reload_project_shape($project_id,$shp_path_prj);
             //TARDA Mazo...mas de 30 sec
 
             $this->grid_to_project($project_id, $grouping);
 
 
-            //$this->user_to_project($project_id,$project_manager); //as manager
+            $this->user_to_project($project_id,$project_manager); //as manager
 
             return Redirect::to('manage/admin/'.$project_id);
         }
