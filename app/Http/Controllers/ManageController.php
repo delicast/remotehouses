@@ -59,7 +59,7 @@ class ManageController extends Controller
             return ("Not Authorised");
         }
         else{
-            $project_id=11;
+            $project_id=10;
             $project_manager=1;
             $qlty_times=1;
             $description='GH10 & GH11 Botswana';
@@ -72,7 +72,7 @@ class ManageController extends Controller
             $shp_path_grid= base_path().'/public/uploads/GH10_GH11_grid_1min.shp';
             $area=23400;
             $pointtypes=array(0,1);  //0 for Households, 1 for Waterholes. Always array
-            $grouping='GH1011'; //CCB_1
+            $grouping='CCB_1'; //CCB_1
 
             //REMOVE IF GRID IS THE SAME!
 
@@ -82,10 +82,10 @@ class ManageController extends Controller
             //$this->reload_project_shape($project_id,$shp_path_prj);
             //TARDA Mazo...mas de 30 sec
 
-            //$this->grid_to_project($project_id, $grouping);
+            $this->grid_to_project($project_id, $grouping);
 
 
-            $this->user_to_project($project_id,$project_manager); //as manager
+            //$this->user_to_project($project_id,$project_manager); //as manager
 
             return Redirect::to('manage/admin/'.$project_id);
         }
@@ -107,7 +107,7 @@ class ManageController extends Controller
     // Associates a grid to a Project based on the grouping field of the grid table
     public  function grid_to_project($project_id,$grouping){
 
-        DB::table('grid')->where('grouping',$grouping)->chunk(300, function($grids)use ($project_id) {
+        DB::table('grid')->where('grouping',$grouping)->chunk(5000, function($grids)use ($project_id) {
             foreach ($grids as $grid) {
 
                 DB::table('grid_project')->insert(

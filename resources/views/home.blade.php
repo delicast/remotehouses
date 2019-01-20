@@ -22,7 +22,7 @@
                     </h3>
                 @endif
             @endforeach
-            
+
             <br>
             <h2>Finished Projects</h2>
             @foreach($projects as $project)
