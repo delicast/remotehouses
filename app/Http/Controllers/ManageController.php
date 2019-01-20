@@ -72,7 +72,7 @@ class ManageController extends Controller
             $shp_path_grid= base_path().'/public/uploads/GH10_GH11_grid_1min.shp';
             $area=23400;
             $pointtypes=array(0,1);  //0 for Households, 1 for Waterholes. Always array
-            $grouping='CCB_1'; //CCB_1
+            $grouping='CCB_2'; //CCB_1
 
             //REMOVE IF GRID IS THE SAME!
 
